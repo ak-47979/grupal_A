@@ -4,6 +4,7 @@ import java.util.List;
 import com.uce.edu.pa2.api.grupal.applicatioin.service.SucursalService;
 import com.uce.edu.pa2.api.grupal.domain.model.Sucursal;
 
+import io.smallrye.common.annotation.Blocking;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -22,6 +23,7 @@ public class SucursalResource {
     // http://localhost:8081/sucursal/todos
     @GET
     @Path("/todos")
+    @Blocking // Agregado para proteger consultas pesadas (Regla del grupo)
     @Produces(MediaType.APPLICATION_JSON)
     public List<Sucursal> buscarTodos() {
         return this.ss.buscarTodos();
@@ -34,18 +36,25 @@ public class SucursalResource {
     public Sucursal buscaSucursalId(@PathParam("id") Integer id) {
         return this.ss.buscaSucursalId(id);
     }
+
+    
     // http://localhost:8081/sucursal/guardar
     @Path("/guardar")
     @POST
     public void crearSucursal(Sucursal sucursal) {
         this.ss.crearSucursal(sucursal);
     }
+
+
     // http://localhost:8081/sucursal/actualizar/{id}
     @Path("/actualizar/{id}")
     @PUT
+    @Blocking // Agregado para proteger el PUT (Regla del grupo)
     public void actualizarSucursal(Sucursal sucursal, @PathParam("id") Integer id) {
         this.ss.actualizarSucursal(sucursal, id);
     }
+
+
       // http://localhost:8081/sucursal/eliminar/{id}
     @Path("/eliminar/{id}")
     @DELETE

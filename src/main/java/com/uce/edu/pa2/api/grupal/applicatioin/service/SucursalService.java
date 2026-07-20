@@ -19,8 +19,13 @@ public class SucursalService {
     // Cambié el nombre del parámetro a "sucursal" para que sea más claro que
     // "servicio"
     public void crearSucursal(Sucursal sucursal) {
+        // Validar datos nulos antes de persistir
+        if (sucursal == null || sucursal.getNombre() == null || sucursal.getCiudad() == null) {
+            throw new jakarta.ws.rs.BadRequestException("Error: El nombre y la ciudad son obligatorios.");
+        }
         this.ri.persist(sucursal);
     }
+
     @Blocking
     public void actualizarSucursal(Sucursal sucursal, Integer id) {
         // Validar si la sucursal existe en la BD
@@ -41,7 +46,12 @@ public class SucursalService {
     }
 
     public void eliminarSucursalId(Integer id) {
-        this.ri.deleteById(id);
+        // Validar si existe antes de eliminar
+        Sucursal base = this.buscaSucursalId(id);
+        if (base == null) {
+            throw new jakarta.ws.rs.NotFoundException("No se puede eliminar: La sucursal con ID " + id + " no existe.");
+        }
+        this.ri.delete(base); // Usamos delete(base) en lugar de deleteById para asegurar el proceso
     }
 
     public List<Sucursal> buscarTodos() {
