@@ -1,6 +1,5 @@
 package com.uce.edu.pa2.api.grupal.domain.model;
 
-
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.*;
 import java.util.List;
@@ -12,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Sucursal extends PanacheEntityBase {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_sucursal_generador")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_sucursal_generador")
     @SequenceGenerator(name = "seq_sucursal_generador", sequenceName = "seq_sucursal", allocationSize = 1)
 
     @Column(name = "sucu_id")
@@ -26,9 +25,9 @@ public class Sucursal extends PanacheEntityBase {
 
     // Cambiado a LAZY para no saturar la base de datos
     @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
-    @JsonIgnoreProperties("sucursal")
+    @com.fasterxml.jackson.annotation.JsonIgnore // 🟢 AQUÍ ESTÁ EL SALVAVIDAS
     private List<Vehiculo> vehiculos;
-    
+
     public Integer getId() {
         return id;
     }
@@ -66,5 +65,4 @@ public class Sucursal extends PanacheEntityBase {
         return "Sucursal [id=" + id + ", nombre=" + nombre + ", ciudad=" + ciudad + "]";
     }
 
-    
 }

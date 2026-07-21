@@ -4,6 +4,7 @@ import java.util.List;
 import com.uce.edu.pa2.api.grupal.applicatioin.service.VehiculoService;
 import com.uce.edu.pa2.api.grupal.domain.model.Vehiculo;
 
+import io.smallrye.common.annotation.Blocking;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -41,6 +42,7 @@ public class VehiculoResorce {
         this.vs.crearAuto(vehiculo);
     }
     // http://localhost:8081/vehiculo/actualizar/{id}
+    @Blocking
     @Path("/actualizar/{id}")
     @PUT
     public void actualizarAuto(Vehiculo vehiculo, @PathParam("id") String placa) {

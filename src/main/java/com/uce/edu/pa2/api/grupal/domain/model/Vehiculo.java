@@ -12,27 +12,26 @@ public class Vehiculo extends PanacheEntityBase {
     @Column(name = "vehi_placa")
     public String placa;
 
-    @Column(name = "vehi_marca", nullable = true)
+    @Column(name = "vehi_marca")
     public String marca;
 
-    @Column(name = "vehi_modelo", nullable = true)
+    @Column(name = "vehi_modelo")
     public String modelo;
 
     // Relación ManyToOne: El vehículo está estacionado en una sucursal específica
     @ManyToOne
-    @JoinColumn(name = "vehi_sucu_id", nullable = true)
+    @JoinColumn(name = "vehi_sucu_id")
     public Sucursal sucursal;
-    public Vehiculo(){}
-    public Vehiculo(String placa, String marca, String modelo, Sucursal sucursal) {
-        this.placa = placa;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.sucursal = sucursal;
+
+    public Vehiculo() {
     }
 
-    // Relación inversa: Un vehículo puede ser reservado múltiples veces en distintas fechas
+    
+    // Relación inversa: Un vehículo puede ser reservado múltiples veces en
+    // distintas fechas
     @OneToMany(mappedBy = "vehiculo")
     @com.fasterxml.jackson.annotation.JsonIgnore // 🟢 SOLUCIÓN DEFINITIVA
+
     public List<Reserva> reservas;
 
     public String getPlaca() {
@@ -79,5 +78,5 @@ public class Vehiculo extends PanacheEntityBase {
     public String toString() {
         return "Vehiculo [placa=" + placa + ", marca=" + marca + ", modelo=" + modelo + ", sucursal=" + sucursal + "]";
     }
-    
+
 }

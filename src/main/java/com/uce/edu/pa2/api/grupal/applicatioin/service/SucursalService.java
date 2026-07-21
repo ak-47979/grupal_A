@@ -26,7 +26,6 @@ public class SucursalService {
         this.ri.persist(sucursal);
     }
 
-    @Blocking
     public void actualizarSucursal(Sucursal sucursal, Integer id) {
         // Validar si la sucursal existe en la BD
         Sucursal base = this.buscaSucursalId(id);
