@@ -14,18 +14,21 @@ public class Sucursal extends PanacheEntityBase {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "seq_sucursal_generador")
     @SequenceGenerator(name = "seq_sucursal_generador", sequenceName = "seq_sucursal", allocationSize = 1)
+
     @Column(name = "sucu_id")
     private Integer id;
+
     @Column(name = "sucu_nombre", nullable = false)
-    public String nombre;
+    private String nombre;
 
     @Column(name = "sucu_ciudad", nullable = false)
-    public String ciudad;
+    private String ciudad;
 
-    @OneToMany(mappedBy = "sucursal",fetch = FetchType.EAGER)
+    // Cambiado a LAZY para no saturar la base de datos
+    @OneToMany(mappedBy = "sucursal", fetch = FetchType.LAZY)
     @JsonIgnoreProperties("sucursal")
-    public List<Vehiculo> vehiculos;
-
+    private List<Vehiculo> vehiculos;
+    
     public Integer getId() {
         return id;
     }
